@@ -4,6 +4,12 @@ orbs:
   allure: ayte/allure@0.1.3
       
 jobs:
+  install-jdk:
+    docker:
+      - image: cimg/openjdk:14.0
+    steps:
+      - checkout
+      - run: java --version
   install-allure:
     docker:
       - image: cimg/base:stable
@@ -28,14 +34,18 @@ jobs:
           results-path: ~/test_circleci/results 
           target-path: ~/test_circleci/reports 
           artifact-path: ~/test_circleci/artifacts
-          
+
 
 workflows:
   version: 2
   install-run-report:
     jobs:
+      - install-jdk:
+          name: install-jdk
       - install-allure:
           name: install-allure
+          requires:
+            - install-jdk
       - run-tests:
           name: run-tests
           requires:
