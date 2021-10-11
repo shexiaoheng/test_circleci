@@ -22,7 +22,8 @@ jobs:
           command: allure --version
       - run:
           name: generate 
-          command: allure generate results -o reports
+          command: allure generate ~/test_circleci/results -o reports | pwd
+      - run: pwd
       - store_artifacts:
           path: ~/test_circleci/reports
           destination: ~/test_circleci/reports/allure-report
