@@ -2,19 +2,17 @@ version: 2.1
 description: test circleci
 orbs:
   allure: ayte/allure@0.1.3
-      
+ 
 jobs:
-  run-tests:
+  tests:
     working_directory: ~/test_circleci
     docker:
       - image: circleci/python:3.9.7
       - image: cimg/openjdk:14.0
-      - image: cimg/base:stable
     steps:
       - checkout
       - run: pip install -r requirements.txt
       - run: pytest hello.py --alluredir=results
-      - checkout
       - run: java --version
       - allure/install:
           version: '2.13.1'
@@ -28,4 +26,4 @@ workflows:
   version: 2
   install-run-report:
     jobs:
-      - run-tests
+      - tests
