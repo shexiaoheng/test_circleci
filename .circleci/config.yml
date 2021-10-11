@@ -1,14 +1,11 @@
 version: 2.1
-orbs:
-  node: circleci/node@1.1
+description: test circleci
 jobs:
   build:
-    executor:
-      name: node/default
-      tag: '10.4'
+    working_directory: ~/test_circleci
+    docker:
+      - image: circleci/python:3.9.7
     steps:
       - checkout
-      - node/with-cache:
-          steps:
-            - run: npm install
-      - run: npm run test
+      - run: pip install -r requirements.txt
+      - run: pytest hello.py -vs
