@@ -4,25 +4,54 @@ orbs:
   allure: ayte/allure@0.1.3
       
 jobs:
-  my-job:
-    working_directory: ~/test_circleci
+  install-jdk:
     docker:
       - image: cimg/openjdk:14.0
-      - image: circleci/python:3.9.7
     steps:
       - checkout
       - run: java --version
+  install-allure:
+    docker:
+      - image: cimg/base:stable
+    steps:
       - allure/install:
           version: '2.13.1'
+      - run: allure --version
+
+  run-tests:
+    working_directory: ~/test_circleci
+    docker:
+      - image: circleci/python:3.9.7
+    steps:
+      - checkout
       - run: pip install -r requirements.txt
       - run: pytest hello.py --alluredir=results
+
+  report-tests:
+    docker:
+      - image: cimg/base:stable
+    steps:
       - allure/report:
-          results-path: ~/test_circleci/results
-          target-path: ~/test_circleci/reports
+          results-path: ~/test_circleci/results 
+          target-path: ~/test_circleci/reports 
           artifact-path: ~/test_circleci/artifacts
+
 
 workflows:
   version: 2
-  myworkflow:
+  install-run-report:
     jobs:
-      - my-job
+      - install-jdk:
+          name: install-jdk
+      - install-allure:
+          name: install-allure
+          requires:
+            - install-jdk
+      - run-tests:
+          name: run-tests
+          requires:
+            - install-allure
+      - report-tests:
+          name: report-tests
+          requires:
+            - run-tests
