@@ -1,7 +1,5 @@
 version: 2.1
 description: test circleci
-orbs:
-  allure: ryanisnan/allure@0.1.2
  
 jobs:
   tests:
@@ -12,13 +10,8 @@ jobs:
       - checkout
       - run: pip install -r requirements.txt
       - run: pytest hello.py --alluredir=results
-      - allure/install:
-          version: '2.13.1'
-      - run: allure --version
-      - allure/report:
-          results-path: ~/test_circleci/results 
-          target-path: ~/test_circleci/reports 
-          artifact-path: ~/test_circleci/artifacts
+      - run: sudo npm install -g allure-commandline
+      - run: allure generate --clean
 
 workflows:
   version: 2
