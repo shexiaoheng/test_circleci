@@ -10,7 +10,7 @@ jobs:
     steps:
       - allure/install:
           version: '2.15.0'
-  build:
+  run-project:
     working_directory: ~/test_circleci
     docker:
       - image: circleci/python:3.9.7
@@ -31,5 +31,5 @@ workflows:
   example-workflow:
     jobs:
       - install-allure
-      - build
+      - run-project
       - report-job
