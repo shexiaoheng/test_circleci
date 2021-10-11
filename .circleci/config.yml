@@ -18,7 +18,7 @@ jobs:
       - image: frankescobar/allure-docker-service:latest
     steps:
       - run: allure --version
-      - run: allure genrate results -o reports
+      - run: allure generate results -o reports
       - run: allure open reports
 
 workflows:
