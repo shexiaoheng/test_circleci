@@ -9,24 +9,38 @@ jobs:
       - image: cimg/base:stable
     steps:
       - allure/install:
-          version: '2.13.1'
-  run-project:
+          version: '2.15.0'
+
+  run-tests:
+    working_directory: ~/test_circleci
     docker:
       - image: circleci/python:3.9.7
     steps:
+      - checkout
       - run: pip install -r requirements.txt
       - run: pytest hello.py --alluredir=results
-  report-job:
+
+  report-tests:
     docker:
       - image: cimg/base:stable
     steps:
       - allure/report:
           results-path: ~/test_circleci/results 
           target-path: ~/test_circleci/reports 
-          artifact-path: ~/test_circleci/artifacts 
+          artifact-path: ~/test_circleci/artifacts
+
+
 workflows:
-  example-workflow:
+  version: 2
+  install-run-report:
     jobs:
-      - install-allure
-      - run-project
-      - report-job
+      - install-allure:
+          name: install-allure
+      - run-tests:
+          name: run-tests
+          requires:
+            - install-allure
+      - report-tests:
+          name: report-tests
+          requires:
+            - run-tests
