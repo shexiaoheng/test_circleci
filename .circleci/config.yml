@@ -17,9 +17,15 @@ jobs:
     docker:
       - image: frankescobar/allure-docker-service:latest
     steps:
-      - run: allure --version
-      - run: allure generate results -o reports
-      - run: allure open reports
+      - run:
+          name: allure
+          command: allure --version
+      - run:
+          name: generate 
+          command: allure generate results -o reports
+      - store_artifacts:
+          path: ~/test_circleci/reports
+          destination: circleci-docs
 
 workflows:
   version: 2
