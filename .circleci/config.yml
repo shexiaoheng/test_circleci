@@ -11,14 +11,11 @@ jobs:
       - allure/install:
           version: '2.13.1'
   run-project:
-    working_directory: ~/test_circleci
     docker:
       - image: circleci/python:3.9.7
     steps:
-      - checkout
       - run: pip install -r requirements.txt
       - run: pytest hello.py --alluredir=results
-      - run: allure serve results/10-11
   report-job:
     docker:
       - image: cimg/base:stable
