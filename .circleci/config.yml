@@ -9,7 +9,7 @@ jobs:
       - image: cimg/base:stable
     steps:
       - allure/install:
-          version: '2.15.0'
+          version: '2.13.1'
 
   run-tests:
     working_directory: ~/test_circleci
@@ -28,7 +28,7 @@ jobs:
           results-path: ~/test_circleci/results 
           target-path: ~/test_circleci/reports 
           artifact-path: ~/test_circleci/artifacts
-
+          
 
 workflows:
   version: 2
