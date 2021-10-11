@@ -30,6 +30,6 @@ jobs:
 workflows:
   example-workflow:
     jobs:
-      - example-job
+      - install-allure
       - build
       - report-job
