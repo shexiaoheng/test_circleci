@@ -25,7 +25,9 @@ jobs:
           command: allure generate results -o reports
       - store_artifacts:
           path: ~/test_circleci/reports
-          destination: /home/circleci/project/allure-report
+          destination: ~/test_circleci/reports/allure-report
+      - store_test_results:
+          path: ~/test_circleci/reports
 
 workflows:
   version: 2
