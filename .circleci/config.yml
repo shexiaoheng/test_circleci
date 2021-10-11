@@ -9,7 +9,7 @@ jobs:
       - image: cimg/base:stable
     steps:
       - allure/install:
-          version: '2.15.0'
+          version: '2.13.1'
   run-project:
     working_directory: ~/test_circleci
     docker:
