@@ -22,9 +22,10 @@ jobs:
           command: allure --version
       - run:
           name: generate 
-          command: allure generate results -o /home/circleci/project/allure-report --clean
+          command: allure generate results -o reports
       - store_artifacts:
-          path: /home/circleci/project/allure-report
+          path: ~/test_circleci/reports
+          destination: /home/circleci/project/allure-report
 
 workflows:
   version: 2
