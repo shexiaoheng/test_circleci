@@ -4,14 +4,32 @@ orbs:
   allure: ayte/allure@0.1.3
       
 jobs:
-  example-job:
+  install-allure:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - allure/install:
+          version: '2.15.0'
+  build:
+    working_directory: ~/test_circleci
     docker:
       - image: circleci/python:3.9.7
     steps:
-      - allure/install:
-          version: '2.15.0' 
-
+      - checkout
+      - run: pip install -r requirements.txt
+      - run: pytest hello.py --alluredir=results
+      - run: allure serve results/10-11
+  report-job:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - allure/report:
+          results-path: ~/test_circleci/results 
+          target-path: ~/test_circleci/reports 
+          artifact-path: ~/test_circleci/artifacts 
 workflows:
-  example-workflows:
+  example-workflow:
     jobs:
       - example-job
+      - build
+      - report-job
