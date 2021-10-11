@@ -9,6 +9,7 @@ jobs:
       - image: circleci/python:3.9.7
     steps:
       - checkout
+      - run: pwd
       - run: pip install -r requirements.txt
       - run: pytest hello.py --alluredir=results
 
@@ -17,22 +18,21 @@ jobs:
     docker:
       - image: frankescobar/allure-docker-service:latest
     steps:
-      - run:
-          name: allure
-          command: allure --version
-      - run:
-          name: generate 
-          command: allure generate ~/test_circleci/results -o reports | pwd
+      - run: pwd
+      - run: allure --version
+      - run: allure generate ~/test_circleci/results -o reports | pwd
       - run: pwd
       - store_artifacts:
-          path: ~/test_circleci/reports
-          destination: ~/test_circleci/reports/allure-report
+          path: home/allure/test_circleci/reports
+          destination: allure-report
       - store_test_results:
-          path: ~/test_circleci/reports
+          path: home/allure/test_circleci/reports
 
 workflows:
   version: 2
   install-run-report:
     jobs:
       - tests
-      - allure
+      - allure:
+          requires: 
+            - tests
