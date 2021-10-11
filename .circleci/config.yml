@@ -1,17 +1,20 @@
 version: 2.1
 description: test circleci
+
  
 jobs:
   tests:
     working_directory: ~/test_circleci
     docker:
       - image: circleci/python:3.9.7
+      - image: frankescobar/allure-docker-service:latest
     steps:
       - checkout
       - run: pip install -r requirements.txt
       - run: pytest hello.py --alluredir=results
-      - run: sudo npm install -g allure-commandline
-      - run: allure generate --clean
+      - run: allure genrate results -o reports
+      - run: allure open reports
+
 
 workflows:
   version: 2
