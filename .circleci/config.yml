@@ -7,17 +7,23 @@ jobs:
     working_directory: ~/test_circleci
     docker:
       - image: circleci/python:3.9.7
-      - image: frankescobar/allure-docker-service:latest
     steps:
       - checkout
       - run: pip install -r requirements.txt
       - run: pytest hello.py --alluredir=results
+
+  allure:
+    working_directory: ~/test_circleci
+    docker:
+      - image: frankescobar/allure-docker-service:latest
+    steps:
+      - run: allure --version
       - run: allure genrate results -o reports
       - run: allure open reports
-
 
 workflows:
   version: 2
   install-run-report:
     jobs:
       - tests
+      - allure
