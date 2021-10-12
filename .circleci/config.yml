@@ -19,14 +19,13 @@ jobs:
       - run: sudo npm install -g allure-commandline
       - run: allure --version
       - run: pip install -r requirements.txt
-      - run: pytest hello.py --alluredir=results
-      - run: allure generate results -o reports
-      - run: pytest hello.py --junitxml=~/test_circleci/report.xml
+      - run: pytest hello.py --alluredir=results --junitxml=reports/xml/report.xml
+      - run: allure generate results -o reports/allure
       - store_artifacts:
-          path: ~/test_circleci/reports
+          path: ~/test_circleci/reports/allure
           destination: allure-report
       - store_test_results:
-          path: ~/test_circleci/report.xml
+          path: ~/test_circleci/reports/xml/report.xml
 
 workflows:
   version: 2
