@@ -10,11 +10,14 @@ jobs:
     steps:
       - checkout
       - run: pwd
+      - run: sudo apt install nodejs
+      - run: sudo npm install -g allure-commandline
       - run: pip install -r requirements.txt
       - run: pytest hello.py --alluredir=results
+      - run: allure generate results -o reports
       - run: pytest hello.py --junitxml=~/test_circleci/report.xml
       - store_artifacts:
-          path: ~/test_circleci/report.xml
+          path: reports
           destination: allure-report
       - store_test_results:
           path: ~/test_circleci/report.xml
