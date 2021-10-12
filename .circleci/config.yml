@@ -10,9 +10,14 @@ jobs:
     steps:
       - checkout
       - run: pwd
+      - run: sudo apt install default-jre
+      - run: java -version
       - run: sudo apt install nodejs
+      - run: node -v
       - run: sudo apt install npm
+      - run: npm -v
       - run: sudo npm install -g allure-commandline
+      - run: allure --version
       - run: pip install -r requirements.txt
       - run: pytest hello.py --alluredir=results
       - run: allure generate results -o reports
