@@ -12,11 +12,12 @@ jobs:
       - run: pwd
       - run: pip install -r requirements.txt
       - run: pytest hello.py --alluredir=results
+      - run: pytest hello.py --junitxml=~/test_circleci/report.xml
       - store_artifacts:
-          path: ~/test_circleci/results
+          path: ~/test_circleci/report.xml
           destination: allure-report
       - store_test_results:
-          path: ~/test_circleci/results
+          path: ~/test_circleci/report.xml
 
 workflows:
   version: 2
